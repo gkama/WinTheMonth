@@ -476,8 +476,8 @@
                     <tr>
                         <th>Total:</th>
                         <th runat="server" id="SpentTotal"></th>
-                        <th id="AllowanceTotal"></th>
-                        <th id="WTDTotal"></th>
+                        <th runat="server" id="AllowanceTotal"></th>
+                        <th runat="server" id="WTDTotal"></th>
                         <th runat="server" id="WTMTotal"></th>
                         <th id="NewAllowanceTotal"></th>
                     </tr>

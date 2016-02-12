@@ -10,7 +10,7 @@ namespace winthemonth
 {
     public partial class _Default : Page
     {
-        double mWTM = 0;
+        const int MONTHDAYS = 31;
 
         //Page Load
         protected void Page_Load(object sender, EventArgs e)
@@ -50,8 +50,11 @@ namespace winthemonth
                 {
                     Label Allowance = (Label)MainContent.FindControl("Allowance" + (i + 1));
 
-                    Allowance.Text = "$" + ((int)dailyIncome).ToString();
+                    Allowance.Text = "$" + ((decimal)dailyIncome).ToString("0.00");
                 }
+
+                //Set Total Allowance
+                AllowanceTotal.InnerText = "$" + Convert.ToDecimal(getTotalAllowance(income)).ToString("0.00");
             }
         }
 
@@ -62,6 +65,11 @@ namespace winthemonth
             return ((income / 52) / 7);
         }
 
+        //Calculate total allowance
+        protected double getTotalAllowance(double income)
+        {
+            return ((getDailyIncome(income)) * MONTHDAYS);
+        }
 
         //When Spent Textbox input changes
         protected void spentChanged(object sender, EventArgs e)
@@ -70,42 +78,32 @@ namespace winthemonth
 
             TextBox spentBox = (TextBox)sender;
 
-            string idNumber = spentBox.ID.ToString().Remove(0, 5);
-
-            Label WTD = (Label)MainContent.FindControl("WTD" + Convert.ToInt32(idNumber));
-
-            TextBox Spent = (TextBox)MainContent.FindControl("Spent" + Convert.ToInt32(idNumber));
-            Label Allowance = (Label)MainContent.FindControl("Allowance" + Convert.ToInt32(idNumber));
-            Label WTM = (Label)MainContent.FindControl("WTM" + Convert.ToInt32(idNumber));
-
-            double WTDRes = Convert.ToInt32(stripDollarSign(Allowance.Text.ToString())) - Convert.ToInt32(Spent.Text.ToString());
-
-            if(WTDRes > 0){
-                WTD.ForeColor = System.Drawing.Color.Green;
-            }
-            else
-                WTD.ForeColor = System.Drawing.Color.Red;
-
-            //Keep track of WTM
-            mWTM += WTDRes;
-
-            //Set text to result
-            WTD.Text = "$" + WTDRes.ToString();
-
-            //Check and update WTM
-            if (mWTM > 0)
+            if (!string.IsNullOrEmpty(spentBox.Text.ToString()))
             {
-                WTM.ForeColor = System.Drawing.Color.Green;
+                string idNumber = spentBox.ID.ToString().Remove(0, 5);
+
+                Label WTD = (Label)MainContent.FindControl("WTD" + Convert.ToInt32(idNumber));
+
+                TextBox Spent = (TextBox)MainContent.FindControl("Spent" + Convert.ToInt32(idNumber));
+                Label Allowance = (Label)MainContent.FindControl("Allowance" + Convert.ToInt32(idNumber));
+                Label WTM = (Label)MainContent.FindControl("WTM" + Convert.ToInt32(idNumber));
+
+                double WTDRes = Convert.ToDouble(stripDollarSign(Allowance.Text.ToString())) - Convert.ToDouble(Spent.Text.ToString());
+
+                if (WTDRes > 0)
+                {
+                    WTD.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                    WTD.ForeColor = System.Drawing.Color.Red;
+
+                //Set text to result
+                WTD.Text = "$" + Convert.ToDecimal(WTDRes).ToString("0.00");
+
+                //Keep track of total
+                calculateSpentTotal(Convert.ToInt32(idNumber));
+                calculateWTMTotal(Convert.ToInt32(idNumber));
             }
-            else
-                WTM.ForeColor = System.Drawing.Color.Red;
-
-            //Set text to result
-            WTM.Text = "$" + mWTM.ToString();
-
-            //Keep track of total
-            calculateSpentTotal();
-            calculateWTMTotal();
         }
 
 
@@ -117,33 +115,46 @@ namespace winthemonth
 
 
         //Calculate spent total
-        protected void calculateSpentTotal()
+        protected void calculateSpentTotal(int index)
         {
-            int totalst = 0;
+            double totalst = 0;
 
             ContentPlaceHolder MainContent = Page.Master.FindControl("MainContent") as ContentPlaceHolder;
-            for (int i = 0; i < 31; i++)
+
+            for (int i = 0; i < index; i++)
             {
                 TextBox Spent = (TextBox)MainContent.FindControl("Spent" + (i + 1));
                 if(!string.IsNullOrEmpty(Spent.Text.ToString()))
-                    totalst += Convert.ToInt32(stripDollarSign(Spent.Text.ToString()));      
+                    totalst += Convert.ToDouble(Spent.Text.ToString());      
             }
-            SpentTotal.InnerText = "$" + totalst.ToString();
+            SpentTotal.InnerText = "$" + Convert.ToDecimal(totalst).ToString("0.00");
         }
 
         //Calculate WTM total
-        protected void calculateWTMTotal()
+        protected void calculateWTMTotal(int index)
         {
-            int total = 0;
+            double total = 0;
 
             ContentPlaceHolder MainContent = Page.Master.FindControl("MainContent") as ContentPlaceHolder;
-            for (int i = 0; i < 31; i++)
+
+            Label currWTM = (Label)MainContent.FindControl("WTM" + index.ToString());
+
+            for (int i = 0; i < index; i++)
             {
-                Label WTM = (Label)MainContent.FindControl("WTM" + (i + 1));
-                if (!string.IsNullOrEmpty(WTM.Text.ToString()))
-                    total += Convert.ToInt32(stripDollarSign(WTM.Text.ToString()));
+                Label WTD = (Label)MainContent.FindControl("WTD" + (i + 1));
+                if (!string.IsNullOrEmpty(WTD.Text.ToString()))
+                    total += Convert.ToDouble(stripDollarSign(WTD.Text.ToString()));
             }
-            WTMTotal.InnerText = "$" + total.ToString();
+            WTMTotal.InnerText = "$" + Convert.ToDecimal(total).ToString("0.00");
+
+            //Check and update WTM
+            if (total > 0)
+            {
+                currWTM.ForeColor = System.Drawing.Color.Green;
+            }
+            else
+                currWTM.ForeColor = System.Drawing.Color.Red;
+            currWTM.Text = "$" + Convert.ToDecimal(total).ToString("0.00");
         }
     }
 }
