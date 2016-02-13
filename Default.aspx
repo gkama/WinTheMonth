@@ -20,12 +20,35 @@
             </div>
 
             <hr />
-            <asp:Button runat="server" ID="UpdateBudgetBtn" Text="Update" CssClass="btn btn-default btn-lg" OnClick="btn_click" />
-            <asp:Label runat="server" ID="ErrorLabel"></asp:Label>
+            <div class="container-fluid" style="font-family: 'Century Gothic';">
+                <div class="row">
+                    <div class="col-md-4">
+                        <asp:Button runat="server" ID="UpdateBudgetBtn" Text="Generate" Width="100%" CssClass="btn btn-primary btn-lg" OnClick="btn_click" />
+                        <asp:Label runat="server" ID="ErrorLabel"></asp:Label>
+                    </div>
+                    <div class="col-md-4">
+                        <asp:DropDownList runat="server" ID="MonthsDDL" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="MonthsDDL_IndexChanged">
+                            <asp:ListItem Value="January"> January </asp:ListItem>
+                            <asp:ListItem Selected="True" Value="February"> February </asp:ListItem>
+                            <asp:ListItem Value="March"> March </asp:ListItem>
+                            <asp:ListItem Value="April"> April </asp:ListItem>
+                            <asp:ListItem Value="May"> May </asp:ListItem>
+                            <asp:ListItem Value="June"> June </asp:ListItem>
+                            <asp:ListItem Value="July"> July </asp:ListItem>
+                            <asp:ListItem Value="August"> August </asp:ListItem>
+                            <asp:ListItem Value="September"> September </asp:ListItem>
+                            <asp:ListItem Value="October"> October </asp:ListItem>
+                            <asp:ListItem Value="November"> November </asp:ListItem>
+                            <asp:ListItem Value="December"> December </asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+            </div>
             <hr />
 
+            <div runat="server" id="table" class="container-fluid" style="display: none;">
             <table id="BudgetTable" class="table" style="font-family: 'Century Gothic';">
-                <caption id="Month" style="text-align: left;">Win The Month: February</caption>
+                <caption runat="server" id="MonthCaption" style="text-align: left;">Win The Month: February</caption>
                 <thead>
                     <tr>
                         <th>Day</th>
@@ -43,7 +66,7 @@
                         <td>
                             <asp:TextBox runat="server" ID="Spent1" CssClass="form-control" Placeholder="Spent" Width="100px" AutoPostBack="true" OnTextChanged="spentChanged"></asp:TextBox></td>
                         <td>
-                            <asp:Label runat="server" ID="Allowance1" Text="" Style="text-align: center;"></asp:Label></td>
+                            <asp:Label runat="server" ID="Allowance1" Style="text-align: center;"></asp:Label></td>
                         <td>
                             <asp:Label runat="server" ID="WTD1" Style="text-align: center;"></asp:Label></td>
                         <td>
@@ -443,7 +466,7 @@
                         <td>
                             <asp:Label runat="server" ID="NewAllowance29" Style="text-align: center;"></asp:Label></td>
                     </tr>
-                    <tr>
+                    <tr runat="server" id="row30" visible="false">
                         <td>
                             <asp:Label runat="server" ID="Day30" Style="text-align: center;">30</asp:Label></td>
                         <td>
@@ -457,7 +480,7 @@
                         <td>
                             <asp:Label runat="server" ID="NewAllowance30" Style="text-align: center;"></asp:Label></td>
                     </tr>
-                    <tr>
+                    <tr runat="server" id="row31" visible="false">
                         <td>
                             <asp:Label runat="server" ID="Day31" Style="text-align: center;">31</asp:Label></td>
                         <td>
@@ -485,7 +508,7 @@
                 <tbody>
                 </tbody>
             </table>
-
+            </div>
 
         </ContentTemplate>
     </asp:UpdatePanel>
@@ -493,6 +516,9 @@
 
         $(document).ready(function () {
 
+            $('#UpdateBudgetBtn').click(function () {
+                $("#table").fadeIn(1000);
+            });
         });
 
     </script>

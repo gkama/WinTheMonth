@@ -10,12 +10,28 @@ namespace winthemonth
 {
     public partial class _Default : Page
     {
+        //MonthDays
         const int MONTHDAYS = 31;
+
+        //Months and days
+        Dictionary<string, int> Months = new Dictionary<string, int>();
 
         //Page Load
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            //Populate Months
+            Months.Add("January", 31);
+            Months.Add("February", 29);
+            Months.Add("March", 31);
+            Months.Add("April", 30);
+            Months.Add("May", 31);
+            Months.Add("June", 30);
+            Months.Add("July", 31);
+            Months.Add("August", 33);
+            Months.Add("September", 30);
+            Months.Add("October", 31);
+            Months.Add("November", 30);
+            Months.Add("December", 31);
         }
 
         //When you click update
@@ -106,6 +122,18 @@ namespace winthemonth
             }
         }
 
+        //Month drop down list changed
+        protected void MonthsDDL_IndexChanged(object sender, EventArgs e)
+        {
+            MonthCaption.InnerText = "Win The Month: " + MonthsDDL.SelectedItem.ToString();
+
+            if (MonthsDDL.SelectedItem.ToString() == "March")
+            {
+                row30.Visible = true;
+                row31.Visible = true;
+            }
+        }
+
 
         //Strip dollar sign
         protected string stripDollarSign(string input)
@@ -146,6 +174,7 @@ namespace winthemonth
                     total += Convert.ToDouble(stripDollarSign(WTD.Text.ToString()));
             }
             WTMTotal.InnerText = "$" + Convert.ToDecimal(total).ToString("0.00");
+            WTDTotal.InnerText = "$" + Convert.ToDecimal(total).ToString("0.00");
 
             //Check and update WTM
             if (total > 0)

@@ -49,6 +49,33 @@ namespace winthemonth {
         protected global::System.Web.UI.WebControls.Label ErrorLabel;
         
         /// <summary>
+        /// MonthsDDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList MonthsDDL;
+        
+        /// <summary>
+        /// table control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl table;
+        
+        /// <summary>
+        /// MonthCaption control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MonthCaption;
+        
+        /// <summary>
         /// Day1 control.
         /// </summary>
         /// <remarks>
@@ -1615,6 +1642,15 @@ namespace winthemonth {
         protected global::System.Web.UI.WebControls.Label NewAllowance29;
         
         /// <summary>
+        /// row30 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow row30;
+        
+        /// <summary>
         /// Day30 control.
         /// </summary>
         /// <remarks>
@@ -1667,6 +1703,15 @@ namespace winthemonth {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label NewAllowance30;
+        
+        /// <summary>
+        /// row31 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow row31;
         
         /// <summary>
         /// Day31 control.
